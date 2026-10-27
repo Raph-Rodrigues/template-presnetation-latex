@@ -1,0 +1,20 @@
+\begin{frame}{Constantes físicas via Lua}
+  \centering
+  \footnotesize
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Símbolo} & \textbf{Valor (CODATA 2022)} & \textbf{Grandeza} \\
+    \midrule
+    \tabelaconstantes{c,hbar,e,me,mp,kB}
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.8em}
+  \begin{destaque}{Como funciona}
+    \small
+    \texttt{\textbackslash tabelaconstantes\{...\}} lê
+    \texttt{lua/constantes.lua} e imprime linhas já formatadas pelo
+    \texttt{siunitx}. Alterar um valor no Lua atualiza todos os slides.
+  \end{destaque}
+\end{frame}

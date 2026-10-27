@@ -1,0 +1,34 @@
+\begin{frame}[fragile]{Como o template usa Lua}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.45\textwidth}
+      \begin{destaque}{Um módulo, três usos}
+        \begin{itemize}
+          \item Constantes e unidades
+          \item Tabelas e listas de exercícios
+          \item CSV $\rightarrow$ gráficos \texttt{pgfplots}
+        \end{itemize}
+      \end{destaque}
+      \begin{destaque}[fisicaviolet]{Compilar}
+        \small
+        \texttt{latexmk -lualatex main.tex}\\[2pt]
+        ou simplesmente \texttt{make}
+      \end{destaque}
+      {\scriptsize\color{fisicamuted}%
+       No texto: \texttt{\textbackslash cte\{hbar\}} e
+       \texttt{\textbackslash energia\{0\}\{250\}}.}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \begin{lstlisting}[style=lua]
+-- lua/fisica.lua (trecho)
+function M.constante(chave)
+  local c = constantes.obter(chave)
+  tex.sprint(string.format(
+    "$%s = \\qty{%s}{%s}$",
+    c.simbolo,
+    c.valor,
+    c.unidade))
+end
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
+\end{frame}

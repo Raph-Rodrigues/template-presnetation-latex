@@ -1,0 +1,30 @@
+\begin{frame}{Espectro em unidades práticas}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.56\textwidth}
+      \centering
+      \footnotesize
+      \renewcommand{\arraystretch}{1.25}
+      \begin{tabular}{@{}cccc@{}}
+        \toprule
+        $n$ & $E_n$ (meV) & paridade & nós \\
+        \midrule
+        \niveisTabela
+        \bottomrule
+      \end{tabular}
+
+      \vspace{0.5em}
+      {\scriptsize\color{fisicamuted}%
+       Gerado por \texttt{lua/conteudo.lua} com
+       $\hbar\omega = 250\ \mathrm{meV}$.}
+    \end{column}
+    \begin{column}{0.41\textwidth}
+      \begin{destaque}[fisicagreen]{Leitura da tabela}
+        \begin{itemize}
+          \item O espaçamento é constante: $250\ \mathrm{meV}$.
+          \item A paridade alterna com $n$.
+          \item O número de nós cresce linearmente.
+        \end{itemize}
+      \end{destaque}
+    \end{column}
+  \end{columns}
+\end{frame}

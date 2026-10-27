@@ -1,0 +1,35 @@
+\begin{frame}{A equação de Schrödinger}
+  \begin{equacao}
+    \[
+      -\frac{\hbar^2}{2m}\,\frac{\mathrm{d}^2\psi}{\mathrm{d}x^2}
+      + \frac12\,m\omega^2 x^2\,\psi
+      = E\,\psi
+    \]
+  \end{equacao}
+
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{destaque}{Adimensionalizar}
+        \[
+          \xi = \sqrt{\frac{m\omega}{\hbar}}\,x,
+          \qquad
+          \epsilon = \frac{2E}{\hbar\omega}
+        \]
+        \[
+          \frac{\mathrm{d}^2\psi}{\mathrm{d}\xi^2}
+          + \left(\epsilon-\xi^2\right)\psi = 0
+        \]
+      \end{destaque}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{destaque}[fisicaviolet]{Condições de contorno}
+        \begin{itemize}
+          \item $\psi(\xi)\to 0$ quando $|\xi|\to\infty$
+          \item $\psi$ e $\psi'$ contínuas
+          \item Soluções normalizáveis exigem
+                $\epsilon = 2n+1$
+        \end{itemize}
+      \end{destaque}
+    \end{column}
+  \end{columns}
+\end{frame}

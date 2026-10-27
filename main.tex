@@ -1,0 +1,79 @@
+% =====================================================================
+%  main.tex
+%  Template de apresentacao para o Bacharelado em Fisica
+%  Beamer + LuaLaTeX + modulos Lua (pasta ./lua)
+%
+%  Compile com:  latexmk -lualatex main.tex
+%  ou:           make
+% =====================================================================
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usepackage{babel}
+\babelprovide[import,main]{brazilian}
+\usetheme{física}
+\usepackage{fisica}
+
+% ---------------------------------------------------------------------
+%  Metadados (edite esta parte)
+% ---------------------------------------------------------------------
+\title[Oscilador quântico]{O oscilador harmônico quântico}
+\subtitle{Da energia de ponto zero aos qubits}
+
+\author[Seu Nome]{\texorpdfstring{Seu Nome\\[2pt]
+  {\small Orientador: Prof.\ Dr.\ Fulano de Tal}}{Seu Nome}}
+\institute[UFXX]{Universidade Federal de Exemplo\\
+  Bacharelado em Física}
+\date{\today}
+
+\fisicaeyebrow{FÍSICA \textperiodcentered{} BACHARELADO \textperiodcentered{} SEMINÁRIO}
+
+% =====================================================================
+\begin{document}
+
+% ---------------------------------------------------------------------
+%  Abertura
+% ---------------------------------------------------------------------
+\frame[plain]{\titlepage}
+
+\begin{frame}{Roteiro}
+  \begin{enumerate}
+    \roteiro
+  \end{enumerate}
+\end{frame}
+
+% Paginas de secao automaticas
+\AtBeginSection[]{%
+  \begin{frame}[plain]
+    \sectionpage
+  \end{frame}%
+}
+
+% ---------------------------------------------------------------------
+%  Conteudo
+% ---------------------------------------------------------------------
+\section{Motivação}
+\input{content/01-motivacao}
+\input{content/02-classico-quantico}
+
+\section{Formulação quântica}
+\input{content/03-schrodinger}
+\input{content/04-niveis}
+
+\section{Espectro e funções de onda}
+\input{content/05-funcoes-onda}
+\input{content/06-tabela-niveis}
+\input{content/07-aplicacoes}
+
+\section{Aplicações e ferramentas}
+\input{content/08-constantes}
+\input{content/09-lua}
+\input{content/10-exercicios}
+\input{content/11-resumo}
+\input{content/12-referencias}
+
+% ---------------------------------------------------------------------
+%  Encerramento
+% ---------------------------------------------------------------------
+\input{content/13-obrigado}
+
+\end{document}

@@ -1,0 +1,75 @@
+% =====================================================================
+%  fisica.sty
+%  Macros de fisica + interface com os modulos Lua
+%  Compile sempre a partir da raiz do projeto (latexmk cuida disso).
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fisica}[2026/10/27 Macros de fisica e interface Lua]
+
+\RequirePackage{amsmath}
+\RequirePackage{siunitx}
+\RequirePackage{graphicx}
+
+% ---------------------------------------------------------------------
+%  Configuracao do siunitx
+% ---------------------------------------------------------------------
+\sisetup{
+  detect-all,
+  per-mode=symbol,
+  uncertainty-mode=compact,
+  exponent-product=\times,
+}
+
+% ---------------------------------------------------------------------
+%  Carrega os modulos Lua (pasta ./lua)
+%
+%  O searcher padrao do LuaTeX nao usa package.path, entao
+%  lua/instalar.lua registra um buscador explicito para ./lua.
+% ---------------------------------------------------------------------
+\directlua{dofile("./lua/instalar.lua")}
+
+% ---------------------------------------------------------------------
+%  Notacao de mecanica quantica
+% ---------------------------------------------------------------------
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+\newcommand{\ketbra}[2]{\left\lvert #1 \right\rangle\!\left\langle #2 \right\rvert}
+\newcommand{\expval}[1]{\left\langle #1 \right\rangle}
+\newcommand{\dv}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\comm}[2]{\left[#1,#2\right]}
+\newcommand{\acomm}[2]{\left\{#1,#2\right\}}
+\newcommand{\iu}{\mathrm{i}}
+
+% ---------------------------------------------------------------------
+%  Interface LaTeX -> Lua
+% ---------------------------------------------------------------------
+% Constantes: \cte{chave}, \ctevalor{chave}, \cteunidade{chave}, \ctesimbolo{chave}
+\newcommand{\cte}[1]{%
+  \directlua{fisica.constante("\luaescapestring{#1}")}}
+\newcommand{\ctevalor}[1]{%
+  \directlua{fisica.valor("\luaescapestring{#1}")}}
+\newcommand{\cteunidade}[1]{%
+  \directlua{fisica.unidade("\luaescapestring{#1}")}}
+\newcommand{\ctesimbolo}[1]{%
+  \directlua{fisica.simbolo("\luaescapestring{#1}")}}
+
+% Tabela de constantes: \tabelaconstantes{c,hbar,e,me}
+\newcommand{\tabelaconstantes}[1]{%
+  \directlua{fisica.tabelaConstantes("\luaescapestring{#1}")}}
+
+% Conteudo gerado a partir de lua/conteudo.lua
+\newcommand{\roteiro}{\directlua{fisica.roteiro()}}
+\newcommand{\comparacao}{\directlua{fisica.comparacao()}}
+\newcommand{\niveisTabela}{\directlua{fisica.niveisTabela()}}
+\newcommand{\exercicios}{\directlua{fisica.exercicios()}}
+
+% Dados experimentais -> pgfplots
+\newcommand{\plotOscilador}{\directlua{fisica.plotOscilador()}}
+
+% Energia de um nivel: \energia{n}{\hbar\omega em meV}
+\newcommand{\energia}[2]{%
+  \directlua{fisica.energia(tonumber(#1), tonumber(#2))}}
+
+\endinput

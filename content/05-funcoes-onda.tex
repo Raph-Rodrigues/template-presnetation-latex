@@ -1,0 +1,46 @@
+\begin{frame}{Funções de onda}
+  \framesubtitle{Soluções normalizadas sobre o potencial parabólico}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.35\textwidth}
+      \begin{destaque}{Forma geral}
+        \[
+          \psi_n(\xi) = N_n\,H_n(\xi)\,e^{-\xi^2/2}
+        \]
+        {\scriptsize\color{fisicamuted}%
+         $N_n=(2^n n!\sqrt{\pi})^{-1/2}$,\quad
+         $\xi=\sqrt{m\omega/\hbar}\,x$}
+      \end{destaque}
+      \begin{itemize}
+        \item $n$ nós e paridade $(-1)^n$
+        \item $|\psi_n|^2$: densidade de probabilidade
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.62\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=\linewidth,
+          height=5.55cm,
+          axis lines=left,
+          axis line style={draw=fisicamuted,line width=0.5pt},
+          xmin=-4.1, xmax=4.1,
+          ymin=0, ymax=5.7,
+          xlabel={$x\,/\,\sqrt{\hbar/m\omega}$},
+          ylabel={$E\,/\,\hbar\omega$},
+          xlabel style={font=\scriptsize,text=fisicamuted},
+          ylabel style={font=\scriptsize,text=fisicamuted},
+          tick label style={font=\scriptsize,text=fisicamuted},
+          grid=major,
+          grid style={draw=fisicamuted!12},
+          legend style={
+            at={(0.03,0.97)},anchor=north west,
+            draw=none,fill=fisicabg,fill opacity=0.85,text opacity=1,
+            text=fisicafg,font=\scriptsize,row sep=0pt},
+          legend cell align=left,
+        ]
+          \plotOscilador
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}

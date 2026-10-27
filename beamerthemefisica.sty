@@ -1,0 +1,346 @@
+% =====================================================================
+%  beamerthemefisica.sty
+%  Tema Beamer "Fisica" -- visual escuro / quantico, para LuaLaTeX
+%  Autor: template base para o Bacharelado em Fisica
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemefisica}[2026/10/27 Tema Beamer Fisica]
+
+% ---------------------------------------------------------------------
+%  Dependencias
+% ---------------------------------------------------------------------
+\RequirePackage{tikz}
+\usetikzlibrary{calc,positioning}
+\RequirePackage{fontspec}
+\RequirePackage{amsmath}
+\RequirePackage{unicode-math}
+\RequirePackage{siunitx}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{microtype}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\RequirePackage{listings}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usefonttheme{professionalfonts}
+
+% ---------------------------------------------------------------------
+%  Tipografia: Fira Sans (texto), Fira Math (matematica), Fira Mono (codigo)
+% ---------------------------------------------------------------------
+\setsansfont{FiraSans}[
+  Extension      = .otf,
+  UprightFont    = *-Regular,
+  BoldFont       = *-Bold,
+  ItalicFont     = *-Italic,
+  BoldItalicFont = *-BoldItalic,
+  Ligatures      = TeX
+]
+\setmainfont{FiraSans}[
+  Extension      = .otf,
+  UprightFont    = *-Regular,
+  BoldFont       = *-Bold,
+  ItalicFont     = *-Italic,
+  BoldItalicFont = *-BoldItalic,
+  Ligatures      = TeX
+]
+\setmonofont{FiraMono}[
+  Extension   = .otf,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
+  Scale       = 0.88
+]
+\setmathfont{FiraMath-Regular.otf}
+
+% ---------------------------------------------------------------------
+%  Paleta
+% ---------------------------------------------------------------------
+\definecolor{fisicabg}{HTML}{0A1020}       % fundo profundo
+\definecolor{fisicabgalt}{HTML}{0E1830}    % fundo alternativo
+\definecolor{fisicacard}{HTML}{131F38}     % cartoes / blocos
+\definecolor{fisicacardalt}{HTML}{1A2A4A}  % titulo de bloco
+\definecolor{fisicafg}{HTML}{E9EFF8}       % texto principal
+\definecolor{fisicamuted}{HTML}{8EA3C0}    % texto secundario
+\definecolor{fisicacyan}{HTML}{5BD8E8}     % acento principal
+\definecolor{fisicaviolet}{HTML}{B49CFF}   % acento secundario
+\definecolor{fisicaamber}{HTML}{FFC46B}    % alerta
+\definecolor{fisicagreen}{HTML}{7BE0A8}    % exemplo / sucesso
+\definecolor{fisicared}{HTML}{FF8095}      % erro
+
+% ---------------------------------------------------------------------
+%  Cores do Beamer
+% ---------------------------------------------------------------------
+\setbeamercolor{normal text}{fg=fisicafg,bg=fisicabg}
+\setbeamercolor{structure}{fg=fisicacyan}
+\setbeamercolor{alerted text}{fg=fisicaamber}
+\setbeamercolor{example text}{fg=fisicagreen}
+\setbeamercolor{title}{fg=fisicafg}
+\setbeamercolor{subtitle}{fg=fisicacyan}
+\setbeamercolor{author}{fg=fisicafg}
+\setbeamercolor{institute}{fg=fisicamuted}
+\setbeamercolor{date}{fg=fisicamuted}
+\setbeamercolor{frametitle}{fg=fisicafg,bg=}
+\setbeamercolor{framesubtitle}{fg=fisicamuted,bg=}
+\setbeamercolor{footline}{fg=fisicamuted,bg=}
+\setbeamercolor{section title}{fg=fisicafg}
+\setbeamercolor{section number projected}{fg=fisicacyan}
+\setbeamercolor{itemize item}{fg=fisicacyan}
+\setbeamercolor{itemize subitem}{fg=fisicaviolet}
+\setbeamercolor{itemize subsubitem}{fg=fisicamuted}
+\setbeamercolor{enumerate item}{fg=fisicacyan}
+\setbeamercolor{enumerate subitem}{fg=fisicaviolet}
+\setbeamercolor{enumerate subsubitem}{fg=fisicamuted}
+\setbeamercolor{description item}{fg=fisicacyan}
+\setbeamercolor{caption name}{fg=fisicacyan}
+\setbeamercolor{block title}{fg=fisicacyan,bg=fisicacardalt}
+\setbeamercolor{block body}{fg=fisicafg,bg=fisicacard}
+\setbeamercolor{block title alerted}{fg=fisicaamber,bg=fisicacardalt}
+\setbeamercolor{block body alerted}{fg=fisicafg,bg=fisicacard}
+\setbeamercolor{block title example}{fg=fisicagreen,bg=fisicacardalt}
+\setbeamercolor{block body example}{fg=fisicafg,bg=fisicacard}
+
+% ---------------------------------------------------------------------
+%  Fontes do Beamer
+% ---------------------------------------------------------------------
+\setbeamerfont{title}{size=\Huge,series=\bfseries}
+\setbeamerfont{subtitle}{size=\large,series=\mdseries}
+\setbeamerfont{author}{size=\normalsize,series=\mdseries}
+\setbeamerfont{institute}{size=\small,series=\mdseries}
+\setbeamerfont{date}{size=\small,series=\mdseries}
+\setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\small,series=\mdseries}
+\setbeamerfont{section title}{size=\Huge,series=\bfseries}
+\setbeamerfont{footline}{size=\scriptsize,series=\mdseries}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamerfont{block body}{size=\small,series=\mdseries}
+\setbeamerfont{block title alerted}{size=\normalsize,series=\bfseries}
+\setbeamerfont{block body alerted}{size=\small,series=\mdseries}
+\setbeamerfont{block title example}{size=\normalsize,series=\bfseries}
+\setbeamerfont{block body example}{size=\small,series=\mdseries}
+
+% ---------------------------------------------------------------------
+%  Medidas e opcoes gerais
+% ---------------------------------------------------------------------
+\setbeamersize{text margin left=0.65cm,text margin right=0.65cm}
+\setlength{\parskip}{0.35em}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{transparent}
+
+\setbeamertemplate{itemize item}{%
+  \raisebox{0.12ex}{\scalebox{0.65}{$\blacktriangleright$}}}
+\setbeamertemplate{itemize subitem}{%
+  \raisebox{0.10ex}{\scalebox{0.60}{$\bullet$}}}
+\setbeamertemplate{itemize subsubitem}{%
+  \raisebox{0.08ex}{\scalebox{0.50}{$\bullet$}}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+% ---------------------------------------------------------------------
+%  Fundo: grade sutil, brilho e onda decorativa
+% ---------------------------------------------------------------------
+\setbeamertemplate{background canvas}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[fisicabg] (current page.south west) rectangle (current page.north east);
+    \begin{scope}[shift={(current page.south west)},opacity=0.035]
+      \draw[step=1cm,fisicacyan,line width=0.2pt] (0,0) grid (16,9);
+    \end{scope}
+    \begin{scope}[shift={(current page.north east)}]
+      \shade[inner color=fisicacyan,outer color=fisicabg,opacity=0.10]
+        (0,0) circle (6.2cm);
+    \end{scope}
+    \begin{scope}[shift={(current page.south east)},opacity=0.14]
+      \draw[fisicaviolet,line width=0.7pt,domain=0:5.5,samples=120]
+        plot (-\x,{1.0+0.28*sin(\x*2.4 r)*exp(-\x/5)});
+    \end{scope}
+  \end{tikzpicture}%
+}
+
+% ---------------------------------------------------------------------
+%  Titulo dos quadros
+% ---------------------------------------------------------------------
+\setbeamertemplate{frametitle}{%
+  \vspace*{0.42cm}%
+  \hspace*{0.65cm}%
+  {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}%
+   \insertframetitle\par}%
+  \ifx\insertframesubtitle\@empty\else
+    \vspace*{0.10cm}%
+    \hspace*{0.65cm}%
+    {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}%
+     \insertframesubtitle\par}%
+  \fi
+  \vspace*{0.16cm}%
+  \hspace*{0.65cm}{\color{fisicacyan}\rule{1.3cm}{1.4pt}}%
+  \vspace*{0.22cm}%
+}
+
+% ---------------------------------------------------------------------
+%  Rodape: progresso + autor + titulo + numero
+% ---------------------------------------------------------------------
+\setbeamertemplate{footline}{%
+  \ifnum\inserttotalframenumber>0\relax
+    \pgfmathsetlengthmacro{\fisica@progress}%
+      {\paperwidth*\insertframenumber/\inserttotalframenumber}%
+  \else
+    \def\fisica@progress{0pt}%
+  \fi
+  \hbox to \paperwidth{%
+    \rlap{\color{fisicamuted!25}\rule{\paperwidth}{0.6pt}}%
+    \rlap{\color{fisicacyan}\rule{\fisica@progress}{0.6pt}}%
+    \hfil
+  }%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.46cm,dp=0.24cm]{footline}%
+    \hspace*{0.65cm}%
+    {\usebeamerfont{footline}\usebeamercolor[fg]{footline}%
+      \insertshortauthor\hfill\insertshorttitle\hfill
+      \insertframenumber\,/\,\inserttotalframenumber}%
+    \hspace*{0.65cm}%
+  \end{beamercolorbox}%
+}
+
+% ---------------------------------------------------------------------
+%  Blocos
+% ---------------------------------------------------------------------
+\newcommand{\fisica@blockbegin}[3]{%
+  \par\vskip\smallskipamount%
+  \begin{beamercolorbox}[wd=\linewidth,sep=0.30em,leftskip=0.65em,rightskip=0.5em]{#1}%
+    \usebeamerfont*{#1}\usebeamercolor[fg]{#1}\insertblocktitle%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  {\color{#3}\rule{\linewidth}{0.9pt}}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\linewidth,sep=0.42em,leftskip=0.65em,rightskip=0.5em,vmode]{#2}%
+    \usebeamerfont{#2}\vspace{0.15em}%
+}
+\newcommand{\fisica@blockend}{%
+  \end{beamercolorbox}%
+  \vskip\smallskipamount%
+}
+\setbeamertemplate{block begin}{%
+  \fisica@blockbegin{block title}{block body}{fisicacyan}}
+\setbeamertemplate{block end}{\fisica@blockend}
+\setbeamertemplate{block alerted begin}{%
+  \fisica@blockbegin{block title alerted}{block body alerted}{fisicaamber}}
+\setbeamertemplate{block alerted end}{\fisica@blockend}
+\setbeamertemplate{block example begin}{%
+  \fisica@blockbegin{block title example}{block body example}{fisicagreen}}
+\setbeamertemplate{block example end}{\fisica@blockend}
+
+% ---------------------------------------------------------------------
+%  Caixas coloridas (tcolorbox)
+% ---------------------------------------------------------------------
+\newtcolorbox{destaque}[2][fisicacyan]{%
+  enhanced,
+  colback=fisicacard,
+  colframe=fisicacard,
+  coltext=fisicafg,
+  boxrule=0pt,
+  arc=2.2mm,
+  left=3.4mm,right=3.4mm,top=2.6mm,bottom=2.6mm,
+  before skip=1.6mm,after skip=1.6mm,
+  fontupper=\small\raggedright,
+  borderline west={2.2pt}{0pt}{#1},
+  before upper={\textcolor{#1}{\sffamily\bfseries #2}\par\vspace{0.30em}},
+}
+
+\newtcolorbox{equacao}{%
+  enhanced,
+  colback=fisicacardalt,
+  colframe=fisicacardalt,
+  coltext=fisicafg,
+  boxrule=0pt,
+  arc=2.2mm,
+  left=3mm,right=3mm,top=2.2mm,bottom=2.2mm,
+  before skip=1.6mm,after skip=1.6mm,
+  halign=center,
+  borderline west={2.2pt}{0pt}{fisicaviolet},
+}
+
+% ---------------------------------------------------------------------
+%  Estilo para codigo Lua
+% ---------------------------------------------------------------------
+\lstdefinestyle{lua}{%
+  language={[5.3]Lua},
+  basicstyle=\ttfamily\scriptsize\color{fisicafg},
+  keywordstyle=\color{fisicacyan}\bfseries,
+  stringstyle=\color{fisicaamber},
+  commentstyle=\color{fisicamuted},
+  numberstyle=\tiny\color{fisicamuted},
+  backgroundcolor=\color{fisicacard},
+  frame=none,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  upquote=true,
+  aboveskip=0.4em,
+  belowskip=0.4em,
+  xleftmargin=0.6em,
+  xrightmargin=0.4em,
+}
+
+% ---------------------------------------------------------------------
+%  Pagina de titulo
+% ---------------------------------------------------------------------
+\def\fisica@eyebrow{F\'ISICA \textperiodcentered{} BACHARELADO}
+\newcommand{\fisicaeyebrow}[1]{\def\fisica@eyebrow{#1}}
+
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{scope}[shift={(current page.south west)},opacity=0.16]
+      \draw[fisicacyan,line width=1pt,domain=7.5:16,samples=180]
+        plot (\x,{1.35+0.60*sin(\x*1.6 r)*exp(-(\x-7.5)/14)});
+      \draw[fisicaviolet,line width=0.7pt,domain=7.5:16,samples=180]
+        plot (\x,{1.35-0.45*sin(\x*2.1 r)*exp(-(\x-7.5)/12)});
+    \end{scope}
+    \draw[fisicacyan,line width=0.6pt,opacity=0.30]
+      ($(current page.north west)+(0.35,-0.35)$) rectangle
+      ($(current page.south east)+(-0.35,0.35)$);
+  \end{tikzpicture}%
+  \vspace*{0.85cm}%
+  {\addfontfeatures{LetterSpacing=0.18em}%
+   \color{fisicacyan}\fontsize{8.5}{10}\selectfont\fisica@eyebrow\par}%
+  \vspace*{0.55cm}%
+  {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}%
+  \vspace*{0.26cm}%
+  {\color{fisicacyan}\rule{2.4cm}{1.5pt}}\par
+  \vspace*{0.36cm}%
+  {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+  \vfill
+  {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}%
+  \vspace*{0.16cm}%
+  {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}%
+  \vspace*{0.26cm}%
+  {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par}%
+  \vspace*{0.55cm}%
+}
+
+% ---------------------------------------------------------------------
+%  Pagina de secao
+% ---------------------------------------------------------------------
+\setbeamertemplate{section page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=west,text=fisicacyan!16,
+          font=\fontsize{130}{130}\selectfont\bfseries]
+      at ($(current page.west)+(0.45cm,0)$) {\insertsectionnumber};
+    \draw[fisicacyan,line width=1.2pt]
+      ($(current page.west)+(2.7cm,1.5cm)$) --
+      ($(current page.west)+(2.7cm,-1.5cm)$);
+  \end{tikzpicture}%
+  \vspace*{3.0cm}%
+  \hspace*{3.2cm}%
+  {\usebeamerfont{section title}\usebeamercolor[fg]{section title}%
+   \insertsectionhead\par}%
+  \vspace*{0.25cm}%
+  \hspace*{3.2cm}{\color{fisicacyan}\rule{1.8cm}{1.2pt}}%
+}
+
+% ---------------------------------------------------------------------
+%  Hyperlinks e ajustes finais
+% ---------------------------------------------------------------------
+\AtBeginDocument{%
+  \hypersetup{linkcolor=fisicacyan,urlcolor=fisicaviolet,citecolor=fisicagreen}%
+}
+
+\endinput
