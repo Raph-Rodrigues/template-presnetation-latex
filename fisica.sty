@@ -9,6 +9,8 @@
 \RequirePackage{amsmath}
 \RequirePackage{siunitx}
 \RequirePackage{graphicx}
+\RequirePackage{iftex}
+\RequirePackage{pgfmath}
 
 % ---------------------------------------------------------------------
 %  Configuracao do siunitx
@@ -25,8 +27,21 @@
 %
 %  O searcher padrao do LuaTeX nao usa package.path, entao
 %  lua/instalar.lua registra um buscador explicito para ./lua.
+%
+%  Com XeLaTeX (unico motor Lua disponivel no UaiTeX) nao ha Lua
+%  embutido: usamos fisica-estatico.tex, gerado por
+%  tools/gerar-fallback-xetex.lua a partir dos mesmos modulos.
 % ---------------------------------------------------------------------
-\directlua{dofile("./lua/instalar.lua")}
+\ifLuaTeX
+  \directlua{dofile("./lua/instalar.lua")}
+\else
+  \InputIfFileExists{fisica-estatico.tex}{}{%
+    \PackageError{fisica}{%
+      fisica-estatico.tex nao encontrado.\MessageBreak
+      Gere o fallback com: lua tools/gerar-fallback-xetex.lua%
+    }{O template precisa do fallback para compilar sem LuaTeX.}%
+  }
+\fi
 
 % ---------------------------------------------------------------------
 %  Notacao de mecanica quantica
@@ -43,8 +58,14 @@
 \newcommand{\iu}{\mathrm{i}}
 
 % ---------------------------------------------------------------------
-%  Interface LaTeX -> Lua
+%  Interface LaTeX -> Lua (somente LuaLaTeX)
+%
+%  Em XeLaTeX, fisica-estatico.tex ja definiu \cte, \ctevalor,
+%  \cteunidade, \ctesimbolo, \tabelaconstantes, \roteiro,
+%  \comparacao, \niveisTabela, \exercicios, \plotOscilador e
+%  \energia a partir dos mesmos dados.
 % ---------------------------------------------------------------------
+\ifLuaTeX
 % Constantes: \cte{chave}, \ctevalor{chave}, \cteunidade{chave}, \ctesimbolo{chave}
 \newcommand{\cte}[1]{%
   \directlua{fisica.constante("\luaescapestring{#1}")}}
@@ -71,5 +92,6 @@
 % Energia de um nivel: \energia{n}{\hbar\omega em meV}
 \newcommand{\energia}[2]{%
   \directlua{fisica.energia(tonumber(#1), tonumber(#2))}}
+\fi
 
 \endinput

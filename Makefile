@@ -2,9 +2,10 @@ LATEXMK ?= latexmk
 LUA     ?= lua
 MAIN     = main
 
-FONTES = $(MAIN).tex beamerthemefisica.sty fisica.sty \
+FONTES = $(MAIN).tex beamerthemefisica.sty fisica.sty fisica-video.sty \
          $(wildcard content/*.tex) \
          $(wildcard lua/*.lua) \
+         $(wildcard videos/*) \
          dados/oscilador.csv
 
 all: $(MAIN).pdf

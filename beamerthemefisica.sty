@@ -140,19 +140,35 @@
 %  Fundo: grade sutil, brilho e onda decorativa
 % ---------------------------------------------------------------------
 \setbeamertemplate{background canvas}{%
-  \begin{tikzpicture}[remember picture,overlay]
-    \fill[fisicabg] (current page.south west) rectangle (current page.north east);
-    \begin{scope}[shift={(current page.south west)},opacity=0.035]
-      \draw[step=1cm,fisicacyan,line width=0.2pt] (0,0) grid (16,9);
+  % Coordenadas absolutas (origem no canto superior esquerdo da pagina):
+  % assim o fundo ja aparece na primeira compilacao, sem depender de
+  % \currentpage / remember picture.
+  \begin{tikzpicture}[overlay]
+    \fill[fisicabg] (0,0) rectangle (\paperwidth,-\paperheight);
+    \begin{scope}[shift={(0,-\paperheight)},opacity=0.035]
+      \draw[step=1cm,fisicacyan,line width=0.2pt]
+        (0,0) grid (\paperwidth,\paperheight);
     \end{scope}
-    \begin{scope}[shift={(current page.north east)}]
+    \begin{scope}[shift={(\paperwidth,0)}]
       \shade[inner color=fisicacyan,outer color=fisicabg,opacity=0.10]
         (0,0) circle (6.2cm);
     \end{scope}
-    \begin{scope}[shift={(current page.south east)},opacity=0.14]
+    \begin{scope}[shift={(\paperwidth,-\paperheight)},opacity=0.14]
       \draw[fisicaviolet,line width=0.7pt,domain=0:5.5,samples=120]
         plot (-\x,{1.0+0.28*sin(\x*2.4 r)*exp(-\x/5)});
     \end{scope}
+    % Numero do slide: aparece em todas as paginas, inclusive nas
+    % paginas "plain" (capa, divisorias de secao e encerramento).
+    \ifnum\inserttotalframenumber>0\relax
+      \node[anchor=north east,
+            draw=fisicacyan!45, fill=fisicabgalt,
+            rounded corners=3.2pt,
+            inner xsep=6pt, inner ysep=3.4pt,
+            line width=0.55pt]
+        at ([xshift=-0.55cm,yshift=-0.40cm]\paperwidth,0)
+        {{\color{fisicacyan}\bfseries\small\insertframenumber}%
+         {\color{fisicamuted}\scriptsize\,/\,\inserttotalframenumber}};
+    \fi
   \end{tikzpicture}%
 }
 
@@ -194,7 +210,7 @@
     \hspace*{0.65cm}%
     {\usebeamerfont{footline}\usebeamercolor[fg]{footline}%
       \insertshortauthor\hfill\insertshorttitle\hfill
-      \insertframenumber\,/\,\inserttotalframenumber}%
+      \insertsectionhead}%
     \hspace*{0.65cm}%
   \end{beamercolorbox}%
 }
@@ -261,6 +277,7 @@
 %  Estilo para codigo Lua
 % ---------------------------------------------------------------------
 \lstdefinestyle{lua}{%
+  % listings define os dialetos 5.0--5.3; nao use 5.4/5.5 aqui.
   language={[5.3]Lua},
   basicstyle=\ttfamily\scriptsize\color{fisicafg},
   keywordstyle=\color{fisicacyan}\bfseries,

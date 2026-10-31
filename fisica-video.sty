@@ -1,0 +1,186 @@
+% =====================================================================
+%  fisica-video.sty
+%  Videos locais para o tema Beamer "Fisica"
+%
+%  Três formas de usar:
+%
+%    \videolocal[width=...]{arquivo.mp4}{capa.png}
+%        incorpora o video na pagina (media9, reprodução embutida)
+%
+%    \videolink[texto]{arquivo.mp4}
+%        link que abre o video no player do sistema
+%
+%    \videoquadros[width=...]{pasta}{primeiro}{ultimo}
+%        anima uma sequencia de imagens (pacote animate), sem Flash
+%
+%  Os arquivos sao procurados em \fisicavideodir (padrao: videos/).
+%  Se o video nao existir, um aviso visual e inserido no lugar.
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fisica-video}[2026/10/31 Videos locais para o tema Fisica]
+
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{pgfkeys}
+\RequirePackage{animate}
+\RequirePackage{hyperref}
+
+% ---------------------------------------------------------------------
+%  media9 e opcional: sem ele, \videolocal cai para um cartao clicavel
+% ---------------------------------------------------------------------
+\newif\iffisica@videomedia
+\fisica@videomediafalse
+\IfFileExists{media9.sty}{%
+  \RequirePackage{media9}%
+  \fisica@videomediatrue
+}{%
+  \PackageWarningNoLine{fisica-video}{%
+    Pacote media9 nao encontrado. \string\videolocal\space vai gerar
+    um cartao com link para o player externo}%
+}
+
+% ---------------------------------------------------------------------
+%  Configuracao
+% ---------------------------------------------------------------------
+\providecommand{\fisicavideodir}{videos/}
+\providecommand{\fisicafps}{12}
+
+% \fisicavideoconfig{width=0.8\linewidth}  -- padrao para os proximos videos
+\newcommand{\fisicavideoconfig}[1]{\pgfkeys{/fisica video/.cd,#1}}
+
+\pgfkeys{/fisica video/.cd,
+  width/.store in=\fisica@vidw,
+  height/.store in=\fisica@vidh,
+  width=0.70\linewidth,
+  height=,
+}
+
+% ---------------------------------------------------------------------
+%  Caixas auxiliares (capa padrao e arquivo ausente)
+% ---------------------------------------------------------------------
+\newcommand{\fisica@playbox}{%
+  \begin{tikzpicture}
+    \node[minimum width=\fisica@vidw, minimum height=\fisica@vidh,
+          draw=fisicamuted!35, fill=fisicabgalt, rounded corners=2.5pt,
+          inner sep=0pt] (fisicacaixa) {};
+    \fill[fisicacyan!16] (fisicacaixa.center) circle (0.42cm);
+    \draw[fisicacyan!75,line width=0.6pt] (fisicacaixa.center) circle (0.42cm);
+    \fill[fisicacyan]
+      ([xshift=-0.13cm,yshift=0.19cm]fisicacaixa.center) --
+      ([xshift=0.23cm]fisicacaixa.center) --
+      ([xshift=-0.13cm,yshift=-0.19cm]fisicacaixa.center) -- cycle;
+  \end{tikzpicture}%
+}
+
+\newcommand{\fisica@errobox}[1]{%
+  \begingroup
+  \edef\fisica@temp{#1}%
+  \begin{tikzpicture}
+    \node[minimum width=\fisica@vidw, minimum height=\fisica@vidh,
+          draw=fisicared!50, fill=fisicabgalt, rounded corners=2.5pt,
+          inner sep=5pt, align=center] {%
+      {\color{fisicared}\bfseries\small vídeo não encontrado}\\[3pt]
+      {\color{fisicamuted}\ttfamily\scriptsize
+       \expandafter\detokenize\expandafter{\fisica@temp}}};
+  \end{tikzpicture}%
+  \endgroup
+}
+
+% ---------------------------------------------------------------------
+%  \videolocal[largura/altura]{video}{capa}
+% ---------------------------------------------------------------------
+\NewDocumentCommand{\videolocal}{O{} m G{}}{%
+  \begingroup
+  \pgfkeys{/fisica video/.cd,width=0.70\linewidth,height=,#1}%
+  \ifx\fisica@vidh\empty
+    \pgfmathsetlengthmacro{\fisica@vidh}{0.5625*\fisica@vidw}%
+  \fi
+  \def\fisica@vidfile{\fisicavideodir#2}%
+  \IfFileExists{\fisica@vidfile}{%
+    % Capa: usa o arquivo informado ou desenha um botao de play
+    \if\relax\detokenize{#3}\relax
+      \def\fisica@poster{\fisica@playbox}%
+    \else
+      \IfFileExists{\fisicavideodir#3}{%
+        \edef\fisica@poster{%
+          \noexpand\includegraphics[width=\fisica@vidw,height=\fisica@vidh,
+            keepaspectratio]{\fisicavideodir#3}}%
+      }{%
+        \def\fisica@poster{\fisica@playbox}%
+        \PackageWarningNoLine{fisica-video}{%
+          Capa '\fisicavideodir#3' nao encontrada; usando botao de play}%
+      }%
+    \fi
+    \iffisica@videomedia
+      \includemedia[
+        width=\fisica@vidw,
+        height=\fisica@vidh,
+        activate=pageopen,
+        passcontext,
+        addresource=\fisica@vidfile,
+        flashvars={source=\fisica@vidfile}
+      ]{\fisica@poster}{VPlayer.swf}%
+    \else
+      % Sem media9: cartao clicavel que abre o player do sistema
+      \href{run:\fisica@vidfile}{\fisica@poster}%
+    \fi
+  }{%
+    \fisica@errobox{\fisica@vidfile}%
+  }%
+  \endgroup
+}
+
+% ---------------------------------------------------------------------
+%  \videolink[texto]{video}
+% ---------------------------------------------------------------------
+\newcommand{\videolink}[2][]{%
+  \begingroup
+  \def\fisica@vidfile{\fisicavideodir#2}%
+  \IfFileExists{\fisica@vidfile}{%
+    \href{run:\fisica@vidfile}{%
+      \if\relax\detokenize{#1}\relax
+        \texttt{\detokenize{#2}}%
+      \else
+        #1%
+      \fi}%
+  }{%
+    {\color{fisicared}\texttt{\detokenize{#2}} (não encontrado)}%
+  }%
+  \endgroup
+}
+
+% ---------------------------------------------------------------------
+%  \videoquadros[largura/altura]{pasta}{primeiro}{ultimo}
+%  Espera arquivos <pasta>/quadro-0001.png, 0002.png, ...
+%  Informe os numeros sem zeros: {1}{120}.
+% ---------------------------------------------------------------------
+\newcommand{\fisica@padfour}[1]{%
+  \ifnum#1<10 000\else
+    \ifnum#1<100 00\else
+      \ifnum#1<1000 0\fi
+    \fi
+  \fi#1}
+
+\newcommand{\videoquadros}[4][]{%
+  \begingroup
+  \pgfkeys{/fisica video/.cd,width=0.70\linewidth,height=,#1}%
+  \ifx\fisica@vidh\empty
+    \pgfmathsetlengthmacro{\fisica@vidh}{0.5625*\fisica@vidw}%
+  \fi
+  \edef\fisica@base{\fisicavideodir#2/quadro-}%
+  \edef\fisica@primeiro{\fisica@padfour{#3}}%
+  \edef\fisica@ultimo{\fisica@padfour{#4}}%
+  \begin{center}
+    \animategraphics[
+      width=\fisica@vidw,
+      height=\fisica@vidh,
+      keepaspectratio,
+      autoplay,
+      loop,
+      controls
+    ]{\fisicafps}{\fisica@base}{\fisica@primeiro}{\fisica@ultimo}%
+  \end{center}
+  \endgroup
+}
+
+\endinput

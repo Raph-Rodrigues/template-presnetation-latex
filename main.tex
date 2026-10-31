@@ -1,17 +1,28 @@
+% !TeX program = xelatex
 % =====================================================================
 %  main.tex
 %  Template de apresentacao para o Bacharelado em Fisica
-%  Beamer + LuaLaTeX + modulos Lua (pasta ./lua)
+%  Beamer + XeLaTeX/LuaLaTeX + modulos Lua (pasta ./lua)
 %
-%  Compile com:  latexmk -lualatex main.tex
+%  Compile com:  latexmk -xelatex main.tex   (funciona no UaiTeX)
+%                latexmk -lualatex main.tex (usa os modulos Lua)
 %  ou:           make
 % =====================================================================
+\RequirePackage{iftex}
+\ifPDFTeX
+  \errmessage{%
+    Este template exige XeLaTeX ou LuaLaTeX (fontspec, unicode-math).
+    Use: latexmk -xelatex main.tex  ou  make}%
+  \expandafter\endinput
+\fi
+
 \documentclass[aspectratio=169,10pt]{beamer}
 
 \usepackage{babel}
 \babelprovide[import,main]{brazilian}
-\usetheme{física}
+\usetheme{fisica}
 \usepackage{fisica}
+\usepackage{fisica-video}
 
 % ---------------------------------------------------------------------
 %  Metadados (edite esta parte)
@@ -69,6 +80,7 @@
 \input{content/09-lua}
 \input{content/10-exercicios}
 \input{content/11-resumo}
+\input{content/14-video}
 \input{content/12-referencias}
 
 % ---------------------------------------------------------------------

@@ -61,8 +61,8 @@ end
 
 -- Linhas prontas para um tabular: simbolo & valor & grandeza \\
 function M.tabelaConstantes(lista)
-  for chave in lista:gmatch("[^,]+") do
-    chave = trim(chave)
+  for bruto in lista:gmatch("[^,]+") do
+    local chave = trim(bruto)
     if chave ~= "" then
       local c = constantes.obter(chave)
       tex.sprint(string.format("$%s$ & \\qty{%s}{%s} & %s \\\\",
@@ -129,13 +129,12 @@ local function lerCSV(caminho)
   end
 
   local linhas = {}
-  for linha in arq:lines() do
-    linha = trim(linha)
+  for bruta in arq:lines() do
+    local linha = trim(bruta)
     if linha ~= "" and linha:sub(1, 1) ~= "#" then
       local campos = {}
       for campo in linha:gmatch("[^,;]+") do
-        campo = trim(campo)
-        campos[#campos + 1] = tonumber(campo) or campo
+        campos[#campos + 1] = tonumber(trim(campo)) or trim(campo)
       end
       if #campos > 0 then
         linhas[#linhas + 1] = campos

@@ -1,3 +1,9 @@
+# Quadros gerados por tools/extrair-quadros.sh
+videos/*-quadros/
+
+# Python
+__pycache__/
+
 # LaTeX
 *.aux
 *.log

@@ -1,0 +1,27 @@
+\begin{frame}{Vídeo local e animação}
+  \framesubtitle{Arquivos em \texttt{videos/}, sem depender de conexão}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.53\textwidth}
+      \centering
+      \videolocal[width=0.94\linewidth]{demo-oscilador.mp4}{demo-oscilador.png}\\[2pt]
+      {\scriptsize\color{fisicamuted}%
+       Superposição de $\psi_0$ e $\psi_1$: a densidade $|\psi|^2$
+       oscila dentro do potencial.}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \begin{destaque}{Comandos}
+        {\scriptsize\ttfamily
+         \textbackslash videolocal[width=...]\\
+         \hspace*{1.1em}\char`\{video.mp4\char`\}\char`\{capa.png\char`\}\\[3pt]
+         \textbackslash videolink[texto]\char`\{video.mp4\char`\}}%
+      \end{destaque}
+      \vspace{0.15em}
+      {\small\videolink[Abrir no player do sistema]{demo-oscilador.mp4}}
+      \vspace{0.45em}
+
+      {\scriptsize\color{fisicamuted}%
+       A reprodução embutida depende do leitor (\texttt{media9});
+       o link abre o vídeo no player externo.}
+    \end{column}
+  \end{columns}
+\end{frame}
